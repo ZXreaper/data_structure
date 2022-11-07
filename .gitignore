@@ -4,3 +4,5 @@ SingleLinkedList/*
 !SingleLinkedList/*.cpp
 SingleCircularLinkedList/*
 !SingleCircularLinkedList/*.cpp
+DoubleLinkedList/*
+!DoubleLinkedList/*.cpp
