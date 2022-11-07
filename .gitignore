@@ -1,3 +1,6 @@
-./Array/
-!./Array/Array.cpp
-
+Array/*
+!Array/*.cpp
+SingleLinkedList/*
+!SingleLinkedList/*.cpp
+SingleCircularLinkedList/*
+!SingleCircularLinkedList/*.cpp
