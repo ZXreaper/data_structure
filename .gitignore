@@ -6,3 +6,5 @@ SingleCircularLinkedList/*
 !SingleCircularLinkedList/*.cpp
 DoubleLinkedList/*
 !DoubleLinkedList/*.cpp
+DoubleCircularLinkedList/*
+!DoubleCircularLinkedList/*.cpp
