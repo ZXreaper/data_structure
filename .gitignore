@@ -8,3 +8,5 @@ DoubleLinkedList/*
 !DoubleLinkedList/*.cpp
 DoubleCircularLinkedList/*
 !DoubleCircularLinkedList/*.cpp
+Stack/*
+!Stack/*.cpp
