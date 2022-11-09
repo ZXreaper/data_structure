@@ -1,3 +1,4 @@
+.vscode
 Array/*
 !Array/*.cpp
 SingleLinkedList/*
@@ -10,3 +11,5 @@ DoubleCircularLinkedList/*
 !DoubleCircularLinkedList/*.cpp
 Stack/*
 !Stack/*.cpp
+Queue/*
+!Queue/*.cpp
