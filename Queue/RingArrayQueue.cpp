@@ -8,6 +8,7 @@ public:
         : cap_(size)
         , front_(0)
         , rear_(0)
+        , size_(0)
     {
         pQue_ = new int[size];
     }
