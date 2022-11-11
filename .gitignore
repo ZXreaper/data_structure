@@ -13,3 +13,5 @@ Stack/*
 !Stack/*.cpp
 Queue/*
 !Queue/*.cpp
+HashTable/*
+!HashTable/*.cpp
