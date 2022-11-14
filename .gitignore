@@ -15,3 +15,7 @@ Queue/*
 !Queue/*.cpp
 HashTable/*
 !HashTable/*.cpp
+BigData/Duplicate_checking/*
+!BigData/Duplicate_checking/*.cpp
+BigData/topk/*
+!BigData/topk/*.cpp
