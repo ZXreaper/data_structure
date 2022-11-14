@@ -1,4 +1,5 @@
 .vscode
+.DS_Store
 Array/*
 !Array/*.cpp
 SingleLinkedList/*
@@ -17,5 +18,6 @@ HashTable/*
 !HashTable/*.cpp
 BigData/Duplicate_checking/*
 !BigData/Duplicate_checking/*.cpp
+!BigData/Duplicate_checking/*.h
 BigData/topk/*
 !BigData/topk/*.cpp
