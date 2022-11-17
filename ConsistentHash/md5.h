@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef _MD5_
+#define _MD5_
 
 /* typedef a 32 bit type */
 typedef unsigned long int UINT4;
@@ -22,3 +22,4 @@ char* MD5_file(const char* path, int md5_len=32);
 char* MD5(const char* buf, int md5_len = 32);
 // 把32位的md5串，处理成unsigned int返回
 unsigned int getMD5(const char* buf);
+#endif
