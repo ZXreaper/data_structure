@@ -21,3 +21,7 @@ BigData/Duplicate_checking/*
 !BigData/Duplicate_checking/*.h
 BigData/topk/*
 !BigData/topk/*.cpp
+ConsistentHash/*
+!ConsistentHash/*.cpp
+!ConsistentHash/*.cc
+!ConsistentHash/*.h
