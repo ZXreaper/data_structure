@@ -25,3 +25,7 @@ ConsistentHash/*
 !ConsistentHash/*.cpp
 !ConsistentHash/*.cc
 !ConsistentHash/*.h
+BST/nonrecursive/*
+!BST/nonrecursive/*.cpp
+BST/recursive/*
+!BST/recursive/*.cpp
