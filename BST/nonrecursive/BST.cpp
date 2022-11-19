@@ -1,5 +1,6 @@
 #include <iostream>
 #include <functional>
+#include <algorithm>
 using namespace std;
 
 // BST树
@@ -142,6 +143,54 @@ public:
         return false;
     }
 
+    // 递归前序遍历接口 给用户调用的
+    void preOrder()
+    {
+        cout<<"[递归]前序遍历：";
+        preOrder(root_);
+        cout<<endl;
+    }
+
+    // 递归中序遍历接口 给用户调用的
+    void inOrder()
+    {
+        cout<<"[递归]中序遍历：";
+        inOrder(root_);
+        cout<<endl;
+    }
+
+    // 递归后序遍历接口 给用户调用的
+    void postOrder()
+    {
+        cout<<"[递归]后序遍历：";
+        postOrder(root_);
+        cout<<endl;
+    }
+
+    // 递归层序遍历接口 给用户调用的
+    void levelOrder()
+    {
+        cout<<"[递归]层序遍历：";
+        int h = high();
+        for(int i = 0; i<h; i++)
+        {
+            levelOrder(root_, i);
+        }
+        cout<<endl;
+    }
+
+    // 递归求二叉树层数接口 给用户调用的
+    int high()
+    {
+        return level(root_);
+    }
+
+    // 递归求二叉树节点个数接口
+    int number()
+    {
+        return number(root_);
+    }
+
 private:
     // 节点定义
     struct Node
@@ -156,6 +205,60 @@ private:
         Node* right_;
     };
 
+    // 递归前序遍历
+    void preOrder(Node *node)
+    {
+        if(node == nullptr) return ;
+        cout<<node->data_<<" ";
+        preOrder(node->left_);
+        preOrder(node->right_);
+    }
+
+    // 递归中序遍历
+    void inOrder(Node *node)
+    {
+        if(node == nullptr) return ;
+        inOrder(node->left_);
+        cout<<node->data_<<" ";
+        inOrder(node->right_);
+    }
+
+    // 递归后序遍历
+    void postOrder(Node *node)
+    {
+        if(node == nullptr) return ;
+        postOrder(node->left_);
+        postOrder(node->right_);
+        cout<<node->data_<<" ";
+    }
+
+    // 递归求层序遍历
+    void levelOrder(Node* node, int h)
+    {
+        if(node == nullptr) return ;
+        if(h == 0)
+        {
+            cout<<node->data_<<" ";
+            return ;
+        }
+        levelOrder(node->left_, h-1);
+        levelOrder(node->right_, h-1);
+    }
+
+    // 递归实现求二叉树层数
+    int level(Node *node)
+    {
+        if(node == nullptr) return 0;
+        return max(level(node->left_), level(node->right_)) + 1;
+    }
+
+    // 递归求二叉树节点个数
+    int number(Node *node)
+    {
+        if(node == nullptr) return 0;
+        return number(node->left_) + number(node->right_) + 1;
+    }
+
     Node* root_;     // 指向bst树的根节点
     Compare comp_;   // 定义一个函数对象
 };
@@ -168,6 +271,13 @@ int main()
     {
         bst.n_insert(v);
     }
+
+    bst.preOrder();
+    bst.inOrder();
+    bst.postOrder();
+    bst.levelOrder();
+    cout<<bst.high()<<endl;
+    cout<<bst.number()<<endl;
 
     cout<<bst.n_query(67)<<endl;
     cout<<bst.n_query(12)<<endl;
