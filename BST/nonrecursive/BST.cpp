@@ -1,6 +1,8 @@
 #include <iostream>
 #include <functional>
 #include <algorithm>
+#include <stack>
+#include <queue>
 using namespace std;
 
 // BST树
@@ -143,38 +145,115 @@ public:
         return false;
     }
 
-    // 递归前序遍历接口 给用户调用的
+    // 非递归前序遍历
     void preOrder()
     {
-        cout<<"[递归]前序遍历：";
-        preOrder(root_);
+        cout<<"[非递归]前序遍历：";
+        if(root_ == nullptr)
+            return ;
+        stack<Node*> sta;
+        sta.push(root_);
+        while(sta.size())
+        {
+            Node *cur = sta.top();
+            sta.pop();
+            cout<< cur->data_ << " ";
+            if(cur->right_ != nullptr)
+            {
+                sta.push(cur->right_);
+            }
+            if(cur->left_ != nullptr)
+            {
+                sta.push(cur->left_);
+            }
+        }
         cout<<endl;
     }
 
-    // 递归中序遍历接口 给用户调用的
+    // 非递归中序遍历
     void inOrder()
     {
-        cout<<"[递归]中序遍历：";
-        inOrder(root_);
+        cout<<"[非递归]中序遍历：";
+        if(root_ == nullptr)
+            return ;
+        stack<Node*> sta;
+        Node *cur = root_;
+        while(cur != nullptr)
+        {
+            sta.push(cur);
+            cur = cur->left_;
+        }
+        while(sta.size())
+        {
+            cur = sta.top();
+            sta.pop();
+
+            cout << cur->data_ << " ";
+
+            cur = cur->right_;
+            while(cur != nullptr)
+            {
+                sta.push(cur);
+                cur = cur->left_;
+            }
+        }
+        
         cout<<endl;
     }
 
-    // 递归后序遍历接口 给用户调用的
+    // 非递归后序遍历
     void postOrder()
     {
-        cout<<"[递归]后序遍历：";
-        postOrder(root_);
+        cout<<"[非递归]后序遍历：";
+        if(root_ == nullptr)
+            return ;
+        stack<Node*> sta;       // 存储VRL，那就是先放左节点，再放右节点
+        stack<Node*> ans;       // 逆序输出
+        sta.push(root_);
+        while(sta.size())
+        {
+            Node *cur = sta.top();
+            sta.pop();
+            ans.push(cur);
+            if(cur->left_ != nullptr)
+            {
+                sta.push(cur->left_);
+            }
+            if(cur->right_ != nullptr)
+            {
+                sta.push(cur->right_);
+            }
+        }
+        while(ans.size())
+        {
+            Node *cur = ans.top();
+            ans.pop();
+            cout << cur->data_ << " ";
+        }
         cout<<endl;
     }
 
-    // 递归层序遍历接口 给用户调用的
+    // 非递归层序遍历
     void levelOrder()
     {
-        cout<<"[递归]层序遍历：";
-        int h = high();
-        for(int i = 0; i<h; i++)
+        cout<<"[非递归]层序遍历：";
+        if(root_ == nullptr)
+            return ;
+        queue<Node*> q;
+        q.push(root_);
+        while(q.size())
         {
-            levelOrder(root_, i);
+            Node *cur = q.front();
+            q.pop();
+            cout << cur->data_ << " ";
+            if(cur->left_ != nullptr)
+            {
+                q.push(cur->left_);
+            }
+            if(cur->right_ != nullptr)
+            {
+                q.push(cur->right_);
+            }
         }
         cout<<endl;
     }
@@ -204,46 +283,6 @@ private:
         Node* left_;
         Node* right_;
     };
-
-    // 递归前序遍历
-    void preOrder(Node *node)
-    {
-        if(node == nullptr) return ;
-        cout<<node->data_<<" ";
-        preOrder(node->left_);
-        preOrder(node->right_);
-    }
-
-    // 递归中序遍历
-    void inOrder(Node *node)
-    {
-        if(node == nullptr) return ;
-        inOrder(node->left_);
-        cout<<node->data_<<" ";
-        inOrder(node->right_);
-    }
-
-    // 递归后序遍历
-    void postOrder(Node *node)
-    {
-        if(node == nullptr) return ;
-        postOrder(node->left_);
-        postOrder(node->right_);
-        cout<<node->data_<<" ";
-    }
-
-    // 递归求层序遍历
-    void levelOrder(Node* node, int h)
-    {
-        if(node == nullptr) return ;
-        if(h == 0)
-        {
-            cout<<node->data_<<" ";
-            return ;
-        }
-        levelOrder(node->left_, h-1);
-        levelOrder(node->right_, h-1);
-    }
 
     // 递归实现求二叉树层数
     int level(Node *node)
