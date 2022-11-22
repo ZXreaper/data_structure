@@ -29,3 +29,5 @@ BST/nonrecursive/*
 !BST/nonrecursive/*.cpp
 BST/recursive/*
 !BST/recursive/*.cpp
+AVL/*
+!AVL/*.cpp
