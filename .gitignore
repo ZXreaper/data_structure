@@ -31,3 +31,5 @@ BST/recursive/*
 !BST/recursive/*.cpp
 AVL/*
 !AVL/*.cpp
+RB_Tree/*
+!RB_Tree/*.cpp
