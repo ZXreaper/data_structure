@@ -53,6 +53,81 @@ public:
         }
     }
 
+    // 删除操作
+    void remove(const T &val)
+    {
+        if(root_ == nullptr)
+            return ;
+
+        Node *cur = root_;
+        while(cur != nullptr)
+        {
+            if(cur->data_ > val)
+            {
+                cur = cur->left_;
+            }
+            else if(cur->data_ < val)
+            {
+                cur = cur->right_;
+            }
+            else
+                break;
+        }
+        if(cur == nullptr)
+        {
+            return ;
+        }
+        // 删除前驱节点  情况三
+        if(cur->left_ != nullptr && cur->right_ != nullptr)
+        {
+            Node *pre = cur->left_;
+            // 找前驱
+            while(pre->right_ != nullptr)
+            {
+                pre = pre->right_;
+            }
+            cur->data_ = pre->data_;
+            cur = pre;  // cur指向前驱节点
+        }
+        // 删除cur指向的节点  情况一和二
+        Node *child = cur->left_;
+        if(child == nullptr)
+        {
+            child = child->right_;
+        }
+        if(child != nullptr)
+        {
+            child->parent_ = cur->parent_;
+            if(cur->parent_ == nullptr)
+            {
+                // root_ -> cur_
+                root_ = child;
+            }
+            else
+            {
+                if(cur->parent_->left_ == cur)
+                {
+                    cur->parent_->left_ = child;
+                }
+                else
+                {
+                    cur->parent_->right_ = child;
+                }
+            }
+            Color c = color(cur);
+            delete cur;
+
+            if(c == BLACK) // 删除的是黑色节点，要进行删除调整操作
+            {
+                fixAfterRemove(child);
+            }
+        }
+        else
+        {
+
+        }
+    }
+
 private:
     // 红黑树节点颜色
     enum Color
@@ -234,6 +309,89 @@ private:
 
         // 此处强制root为黑色节点
         setColor(root_, BLACK);
+    }
+
+    // 红黑树的删除调整操作
+    void fixAfterRemove(Node *node)
+    {
+        while (color(node) == BLACK)
+        {
+            if(left(parent(node)) == node)  // 删除的黑色节点在左子树
+            {
+                Node *brother = right(parent(node));
+                // 先处理情况四
+                if(color(brother) == RED)
+                {
+                    setColor(parent(node), RED);
+                    setColor(brother, BLACK);
+                    leftRotate(parent(node));
+                    brother = right(parent(node));  // 更新兄弟节点
+                }
+                // 情况四处理完后，保证兄弟节点是黑色的
+                // 再处理情况三
+                if(color(brother->left_) == BLACK && color(brother->right_) == BLACK)
+                {
+                    setColor(brother, RED);
+                    node = parent(node);
+                }
+                else
+                {
+                    if(color(right(brother)) != RED)    // 情况二
+                    {
+                        setColor(brother, RED);
+                        setColor(left(brother), BLACK);
+                        rightRotate(brother);
+                        brother = right(parent(node));
+                    }
+
+                    // 归结到情况一
+                    setColor(brother, color(parent(node)));
+                    setColor(parent(node), BLACK);
+                    setColor(right(brother), BLACK);
+                    leftRotate(parent(node));
+                    break;
+                }
+            }
+            else        // 删除的黑色节点在右子树
+            {
+                Node *brother = left(parent(node));
+                // 先处理情况四
+                if(color(brother) == RED)
+                {
+                    setColor(parent(node), RED);
+                    setColor(brother, BLACK);
+                    rightRotate(parent(node));
+                    brother = left(parent(node));  // 更新兄弟节点
+                }
+                // 情况四处理完后，保证兄弟节点是黑色的
+                // 再处理情况三
+                if(color(brother->left_) == BLACK && color(brother->right_) == BLACK)
+                {
+                    setColor(brother, RED);
+                    node = parent(node);
+                }
+                else
+                {
+                    if(color(left(brother)) != RED)    // 情况二
+                    {
+                        setColor(brother, RED);
+                        setColor(right(brother), BLACK);
+                        leftRotate(brother);
+                        brother = left(parent(node));
+                    }
+
+                    // 归结到情况一
+                    setColor(brother, color(parent(node)));
+                    setColor(parent(node), BLACK);
+                    setColor(left(brother), BLACK);
+                    rightRotate(parent(node));
+                    break;
+                }
+            }
+        }
+
+        // 如果发现node指向的节点是红色，直接涂成黑色，调整结束
+        setColor(node, BLACK);
     }
 
     Node *root_;        // 指向红黑树的根节点
