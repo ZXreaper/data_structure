@@ -93,7 +93,7 @@ public:
         Node *child = cur->left_;
         if(child == nullptr)
         {
-            child = child->right_;
+            child = cur->right_;
         }
         if(child != nullptr)
         {
@@ -124,7 +124,30 @@ public:
         }
         else
         {
-
+            // 只剩根节点的情况
+            if(cur->parent_ == nullptr)
+            {
+                delete cur;
+                root_ = nullptr;
+                return ;
+            }
+            else
+            {
+                // 删除的cur是叶子节点
+                if(color(cur) == BLACK)
+                {
+                    fixAfterRemove(cur);
+                }
+                if(cur->parent_->left_ == cur)
+                {
+                    cur->parent_->left_ = nullptr;
+                }
+                else
+                {
+                    cur->parent_->right_ = nullptr;
+                }
+                delete cur;
+            }
         }
     }
 
@@ -139,7 +162,7 @@ private:
     // 节点类型
     struct Node
     {
-        Node(T data=T(), Node *left = nullptr, Node *right = nullptr, Node *parent = nullptr, Color color = BLACK)
+        Node(T data=T(), Node *parent = nullptr, Node *left = nullptr, Node *right = nullptr, Color color = BLACK)
             : data_(data)
             , left_(left)
             , right_(right)
@@ -187,9 +210,8 @@ private:
     void leftRotate(Node *node)
     {
         Node *child = node->right_;
-        Node *parent = node->parent_;
-        child->parent_ = parent;
-        if(parent == nullptr)
+        child->parent_ = node->parent_;
+        if(node->parent_ == nullptr)
         {
             // node本神就是root节点
             root_ = child;
@@ -199,12 +221,12 @@ private:
             if(node->parent_->left_ == node)
             {
                 // node在父节点的左孩子
-                parent->left_ = child;
+                node->parent_->left_ = child;
             }
             else
             {
                 // node在父节点的右孩子
-                parent->right_ = child;
+                node->parent_->right_ = child;
             }
         }
         node->right_ = child->left_;
@@ -221,21 +243,20 @@ private:
     void rightRotate(Node *node)
     {
         Node *child = node->left_;
-        Node *parent = node->parent_;
-        child->parent_ = parent;
-        if(parent == nullptr)
+        child->parent_ = node->parent_;
+        if(node->parent_ == nullptr)
         {
             root_ = child;
         }
         else
         {
-            if(parent->left_ == node)
+            if(node->parent_->left_ == node)
             {
-                parent->left_ = child;
+                node->parent_->left_ = child;
             }
             else
             {
-                parent->right_ = child;
+                node->parent_->right_ = child;
             }
         }
         node->left_ = child->right_;
@@ -258,7 +279,7 @@ private:
             if(left(parent(parent(node))) == parent(node))
             {
                 Node *uncle = right(parent(parent(node)));
-                if(color(uncle) == RED)     // 情况1
+                if(RED == color(uncle))     // 情况1
                 {
                     setColor(parent(node), BLACK);      // 把父亲的颜色置成黑色
                     setColor(uncle, BLACK);             // 把叔叔的颜色置成黑色
@@ -283,7 +304,7 @@ private:
             else  // 插入的节点在右子树当中
             {
                 Node *uncle = left(parent(parent(node)));
-                if(color(uncle) == RED)     // 情况1
+                if(RED == color(uncle))     // 情况1
                 {
                     setColor(parent(node), BLACK);      // 把父亲的颜色置成黑色
                     setColor(uncle, BLACK);             // 把叔叔的颜色置成黑色
@@ -314,7 +335,8 @@ private:
     // 红黑树的删除调整操作
     void fixAfterRemove(Node *node)
     {
-        while (color(node) == BLACK)
+        // 注意node为根时，就不用再调整了
+        while (node != root_ && color(node) == BLACK)
         {
             if(left(parent(node)) == node)  // 删除的黑色节点在左子树
             {
@@ -400,6 +422,14 @@ private:
 int main()
 {
     RBTree<int> rbt;
-    
+    for(int i = 1; i<=10; i++)
+    {
+        rbt.insert(i);
+    }
+
+    rbt.remove(9);
+    rbt.remove(10);
+    rbt.remove(5);
+    rbt.remove(3);
     return 0;
 }
