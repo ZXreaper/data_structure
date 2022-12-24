@@ -35,3 +35,5 @@ RB_Tree/*
 !RB_Tree/*.cpp
 String/*
 !String/*.cpp
+Trie/*
+!Trie/*.cpp
