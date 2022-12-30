@@ -1,5 +1,7 @@
 .vscode
 .DS_Store
+*.DSYM
+*test*
 Array/*
 !Array/*.cpp
 SingleLinkedList/*
@@ -39,3 +41,5 @@ Trie/*
 !Trie/*.cpp
 SkipList/*
 !SkipList/*.cpp
+InvertedIndex/*
+!InvertedIndex/*.cpp
